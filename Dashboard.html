@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>GameDash</title>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.6.3/css/foundation.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.6.3/js/foundation.min.js"></script>
+
+        <style>
+            body {
+              background-color: #fdedb1;
+              background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgb(234, 224, 200) 20px, rgb(234, 224, 200) 60px);
+              font-family: Arial, Helvetica, sans-serif;
+            }
+         .cell {
+                border: 1px solid black;
+            }
+        #aboutUs {
+            background: cornsilk;
+            font-size: 12px;
+            padding: 8px
+        }
+        #aboutGame {
+            background: cornsilk;
+            font-size: 12px;
+            padding: 8px
+        }
+         #controls {
+            background: cornsilk;
+            font-size: 12px;
+            padding: 8px        
+            }
+        #download {
+            background: cornsilk;
+            font-size: 12px;
+            padding: 8px
+        }
+        #entire {
+            margin: 100px;
+        }
+        #header {
+        border: none;
+        }
+        #sig{
+
+        }
+        .button {
+            background-color: #fada5e;
+            border: none;
+            text-align: center;
+            display: inline-block;
+            font-size: 18px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }         
+        .button:hover {
+            background-color: #d2bd89;
+        }
+        .header {
+          overflow: hidden;
+          background-color: white;
+        }
+        .download {
+            overflow: hidden;
+            background-color: white;
+            font-size: 11px;
+            border: 1px solid black;
+            padding: 8px;
+        }
+        #img1 {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 80%;
+            border: none;
+            padding-top: 10px;
+        }
+        #img2 {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 80%;
+            border: none;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        #tabL{
+            float:left;
+        }
+        #tabR{
+            float:right;
+        }
+       
+        </style>
+        <script>
+            function ShowAndHide() {
+                var x = document.getElementById('aboutUs');
+                if (x.style.display == 'none') {
+                x.style.display = 'block';
+                } else {
+                x.style.display = 'none';
+                }
+            }         
+            function ShowAndHide2() {
+                var x = document.getElementById('aboutGame');
+                if (x.style.display == 'none') {
+                x.style.display = 'block';
+                } else {
+                x.style.display = 'none';
+                }
+            }         
+            function ShowAndHide3() {
+                var x = document.getElementById('controls');
+                if (x.style.display == 'none') {
+                x.style.display = 'block';
+                } else {
+                x.style.display = 'none';
+                }
+            }         
+            function ShowAndHide4() {
+                var x = document.getElementById('download');
+                if (x.style.display == 'none') {
+                x.style.display = 'block';
+                } else {
+                x.style.display = 'none';
+                }
+            }                 
+        </script>
+        
+    </head>
+    <body>
+        <div id=entire>
+            <div class="grid-x">
+                <div id=header class="cell small-12 medium-12 large-12 text-center">
+                    <button id=aUs class="button" onclick="ShowAndHide()">About Us</button>
+                    <button id=aGame class="button" onclick="ShowAndHide2()">About Game</button>
+                    <button id=cont class="button" onclick="ShowAndHide3()">Controls</button>
+                    <button id=down class="button" onclick="ShowAndHide4()">Download Game</button>
+                   <button id=sig class="button" onclick="window.location.href='file:///C:/Users/Yael%20Lovett/OneDrive/Documents/College/Summer%202022/Software%20Development/create_account.html';">Sign-up/log-in</button>
+             
+                </div>
+             </div>
+
+         <div class="grid-x">
+            <div id=aboutUs class="cell small-12 medium-12 large-12" style="display: none">
+            <b>About Us </b> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            </div>
+        </div>
+        <div class="grid-x">
+            <div id=aboutGame class="cell small-12 medium-12 large-12" style="display: none">
+            <b>About Game </b> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            </div>
+        </div>
+        <div class="grid-x">
+            <div id=controls class="cell small-12 medium-12 large-12" style="display: none"><b>Controls </b>Lorem Ipsum voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae
+            </div>
+        </div>
+
+        <div class="grid-x">
+            <div id=download class="cell small-12 medium-12 large-12 text-right" style="display: none">
+                 <span id="tabL">Click here to download our game now!</span>
+                <span id="tabR"> *insert download link here*</span>
+            </div>
+        </div>
+        <div class="grid-x">
+        <div id=img1 class="cell small-12 medium-12 large-12">
+            <img id=img1
+            src=https://images.freeimages.com/images/large-previews/a20/pac-man-1243681.jpg>
+        </div>
+    </div>
+        <div class="grid-x">
+        <div id=img2 class="cell small-12 medium-12 large-12 text-center">
+            <img id=img2
+            src=https://images.freeimages.com/images/large-previews/efe/space-invaders-1243673.jpg>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
