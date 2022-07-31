@@ -83,4 +83,4 @@ app.post('/auth', function(request, response) {
     }
 });
 
-app.listen(3306);
+app.listen(3000);
