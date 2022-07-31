@@ -43,6 +43,11 @@ app.get('/', function(request, response) {
     response.sendFile(path.join(__dirname + '/login.html'));
 });
 
+app.get('/', function(request, response) {
+    // Render login template
+    response.sendFile(path.join(__dirname + '/create_account.html'));
+});
+
 app.get('/home', function(request, response) {
     // If the user is loggedin
     if (request.session.loggedin) {
