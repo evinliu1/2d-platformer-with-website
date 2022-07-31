@@ -84,4 +84,20 @@ app.post('/auth', function(request, response) {
     }
 });
 
+app.post('/auth', function(request, response) {
+    let username = request.body.username;
+    let password = request.body.password;
+    console.log(username, password);
+    if (username && password) {
+        connection.query('INSERT INTO glitchdb.users (UserName, UserPass) VALUES(?, ?)', [username, password], function (error, results, fields) {
+            if (error) throw error;
+            else response.send("New User Accepted");
+            response.redirect('login.html');
+        })
+    } else {
+        response.send('Please enter a Username and Password');
+        response.end();
+    }
+});
+
 app.listen(80)
