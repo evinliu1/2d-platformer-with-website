@@ -135,19 +135,21 @@
 </head>
     <body>
         <div class="container">
-            <form class="form" id="login">
-                <h1 class="form_title">Login</h1>
-                <div class="form_message form_message--error"></div>
-                <div class="form_input-group">
-                    <input type="text" class="form_input" autofocus placeholder="Username">
-                    <div class="form_input-error-message"></div>
-                </div>
-                <div class="form_input-group">
-                    <input type="password" class="form_input" autofocus placeholder="Password">
-                    <div class="form_input-error-message"></div>
-                </div>
-                <button class="form_button type="submit">Login</button>
-            </form>
+            <div class="login">
+			<h1>Login</h1>
+			<form action="/auth" method="post">
+				<label for="username">
+					<!-- font awesome icon -->
+					<i class="fas fa-user"></i>
+				</label>
+				<input type="text" name="username" placeholder="Username" id="username" required>
+				<label for="password">
+					<i class="fas fa-lock"></i>
+				</label>
+				<input type="password" name="password" placeholder="Password" id="password" required>
+				<input type="submit" value="Login">
+			</form>
+		</div>
         </div>
         <script src="login.js"></script>         
     </body>
