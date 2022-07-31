@@ -2,6 +2,7 @@ const mysql = require('mysql');
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
+const app = express();
 
 const connection = mysql.createConnection({
     host     : 'localhost',
@@ -28,8 +29,6 @@ connection.connect(function(err) {
     }
 })
 
-const app = express();
-
 app.use(session({
     secret: 'secret',
     resave: true,
@@ -43,6 +42,7 @@ app.get('/', function(request, response) {
     // Render login template
     response.sendFile(path.join(__dirname + '/login.html'));
 });
+
 app.get('/home', function(request, response) {
     // If the user is loggedin
     if (request.session.loggedin) {
@@ -59,10 +59,11 @@ app.post('/auth', function(request, response) {
     // Capture the input fields
     let username = request.body.username;
     let password = request.body.password;
+    console.log(username, password)
     // Ensure the input fields exists and are not empty
     if (username && password) {
         // Execute SQL query that'll select the account from the database based on the specified username and password
-        connection.query('SELECT * FROM mydb WHERE UserName = ? AND UserPass = ?', [username, password], function(error, results, fields) {
+        connection.query('SELECT * FROM glitchdb.users WHERE UserName = ? AND UserPass = ?', [username, password], function(error, results, fields) {
             // If there is an issue with the query, output the error
             if (error) throw error;
             // If the account exists
@@ -83,4 +84,4 @@ app.post('/auth', function(request, response) {
     }
 });
 
-app.listen(3000);
+app.listen(80)
