@@ -17,3 +17,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Users` (
   `UserPass` VARCHAR(45) NOT NULL,
   `DownloadedGame` BINARY(1) NULL,
   PRIMARY KEY (`UserID`));
+  
+INSERT INTO Users (UserID, UserName, UserPass)
+VALUES (1, 'Test1', 'TestPass'),
+	(2, 'Test2', 'TestPass'),
+	(3, 'Test3', 'TestPass');
