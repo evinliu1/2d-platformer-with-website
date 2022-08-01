@@ -8,7 +8,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'nodelogin'
+    database: 'glitchdb'
 });
 
 const app = express();
