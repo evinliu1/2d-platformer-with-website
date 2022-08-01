@@ -1,147 +1,78 @@
-<!DOCTYPE html>
-<html>
+const mysql = require('mysql');
+const express = require('express');
+const session = require('express-session');
+const path = require('path');
+const bodyParser = require('body-parser');
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=devide-width">
-    <title>Glitch</title>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const loginForm = document.querySelector("#login");
-            const createAccountForm = document.querySelector("#createAccount");
-        });
-    </script>
-    <style>
-        body {
-            --color-primary: #fada5e;
-            --color-primary-dark: #d2bd89;
-            --color-secondary: #19647E;
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'glitchdb'
+});
 
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            display: center;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            --border-radius: 14px;
-        }
+const app = express();
 
-        .container {
-            width: 400px;
-            max-width: 400px;
-            margin: 1rem;
-            padding: 2rem;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
-            border-radius: var(--border-radius);
-            background: #ffffff;
+connection.connect(function(err) {
+    if(err){
+        console.log("Error in the connection")
+        console.log(err)
+    }
+    else{
+        console.log(`Database Connected`)
+        connection.query(`SHOW DATABASES`,
+            function (err, result) {
+                if(err)
+                    console.log(`Error executing the query - ${err}`)
+                else
+                    console.log("Result: ",result)
+            })
+    }
+})
+global.db = connection;
 
-        }
+app.set('view engine', 'html')
+app.set('views', path.join(__dirname, 'views'));
+app.set('port', 90)
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use('/public', express.static(path.join(__dirname, 'static')));
 
-        .container,
-        .form_input,
-        .form_button {
-            font: 500 1rem 'Quicksand', sans-serif;
-        }
+app.get('/', function(request, response) {
+    // Render login template
+    response.sendFile(path.join(__dirname + '/node_modules/views/create_account.html'));
+});
 
-        .form>*:first-child {
-            margin-top: 0;
-        }
+app.get('/login.html', function(request, response) {
+    // Render login template
+    response.sendFile(path.join(__dirname + '/node_modules/views/login.html'));
+});
 
-        .form>*:last-child {
-            margin-top: 0;
-        }
+app.use(bodyParser.urlencoded({ extended: false}));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
 
-        .form_title {
-            margin-bottom: 2rem;
-            text-align: center;
-        }
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUnitialized: true,
+}));
 
-        .form_message {
-            text-align: center;
-            margin-bottom: 1rem;
-        }
+// Record inputs into sql table
+app.post('/auth', function(request, response) {
+    let username = request.body.username;
+    let password = request.body.password;
+    console.log(username, password);
+    if (username && password) {
+        connection.query('INSERT INTO glitchdb.users (UserName, UserPass) VALUES(?, ?)', [username, password], function (error, results, fields) {
+            if (error) throw error;
+            else response.send("New User Accepted");
+            response.redirect('login.html');
+        })
+    } else {
+        response.send('Please enter a Username and Password');
+        response.end();
+    }
+});
 
-        .form_input-group {
-            margin-bottom: 1rem;
-        }
-
-        .form_input {
-            display: block;
-            width: 100%;
-            padding: 0.75rem;
-            box-sizing: border-box;
-            border-radius: var(--border-radius);
-            border: 1px solid #dddddd;
-            outline: none;
-            background: #eeeeee;
-            transition: background 0.2s, border-color 0.2s;
-        }
-
-        .form_input:focus {
-            border-color: var(--color-primary);
-            background: #ffffff;
-        }
-
-        .form_button {
-            width: 100%;
-            padding: 1rem 2rem;
-            font-weight: bold;
-            font-size: 1.1rem;
-            color: #ffffff;
-            border: none;
-            border-radius: var(--border-radius);
-            outline: none;
-            cursor: pointer;
-            background: var(--color-primary);
-            margin-bottom: 2rem;
-        }
-
-        .form_button:hover {
-            background: var(--color-primary-dark);
-        }
-
-        .form_button:active {
-            transform: scale(0.98);
-        }
-
-        .form_text {
-            color: var();
-            text-align: center;
-        }
-
-        .form_link {
-            color: var(--color-secondary);
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .form_link:hover {
-            text-decoration: underline;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container">
-        <form class="form" id="signup" method="POST" action="/sign">
-            <h1 class="form_title">Create an Account</h1>     
-            <div class="form_input-group">
-                <input type="text" class="form_input" autofocus placeholder="Username">
-            </div>
-            <div class="form_input-group">
-                <input type="text" class="form_input" autofocus placeholder="Email">
-            </div>
-            <div class="form_input-group">
-                <input type="password" class="form_input" autofocus placeholder="Password"v>
-            </div>
-            <button class="form_button type=" submit">Sign up</button>
-            <p class="form_text">
-                <a href="login.html" class="form_link" id="linkLogin">Have an account? Log in</a>
-            </p>
-        </form>
-    </div>
-    <script src="create_account.js"></script>
-</body>
-
-</html>
+app.listen(90);
