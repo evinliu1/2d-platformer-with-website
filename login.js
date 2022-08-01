@@ -38,30 +38,24 @@ app.use(session({
 
 app.set('view engine', 'html')
 app.set('views', path.join(__dirname, 'views'));
+app.set('port', 80)
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/public', express.static(path.join(__dirname, 'static')));
 
 app.get('/login.html', function(request, response) {
     // Render login template
-    response.sendFile(path.join(__dirname + '/login.html'));
+    response.sendFile(path.join(__dirname + '/node_modules/views/login.html'));
 });
 
 app.get('/create_account.html', function(request, response) {
     // Render login template
-    response.sendFile(path.join(__dirname + '/create_account.html'));
+    response.sendFile(path.join(__dirname + '/node_modules/views/create_account.html'));
 });
 
-app.get('/home', function(request, response) {
-    // If the user is logged in
-    if (request.session.loggedin) {
-        // Output username
-        response.send('Welcome back, ' + request.session.username + '!');
-    } else {
-        // Not logged in
-        response.send('Please login to view this page!');
-    }
-    response.end();
+app.get('/', function(request, response) {
+    // Render login template
+    response.sendFile(path.join(__dirname + '/node_modules/views/Dashboard.html'));
 });
 
 app.post('/auth', function(request, response) {
@@ -81,7 +75,7 @@ app.post('/auth', function(request, response) {
                 request.session.loggedin = true;
                 request.session.username = username;
                 // Redirect to home page
-                response.redirect('Dashboard.html');
+                response.redirect('/')
             } else {
                 response.send('Incorrect Username and/or Password!');
             }
@@ -89,22 +83,6 @@ app.post('/auth', function(request, response) {
         });
     } else {
         response.send('Please enter Username and Password!');
-        response.end();
-    }
-});
-
-app.post('/auth', function(request, response) {
-    let username = request.body.username;
-    let password = request.body.password;
-    console.log(username, password);
-    if (username && password) {
-        connection.query('INSERT INTO glitchdb.users (UserName, UserPass) VALUES(?, ?)', [username, password], function (error, results, fields) {
-            if (error) throw error;
-            else response.send("New User Accepted");
-            response.redirect('login.html');
-        })
-    } else {
-        response.send('Please enter a Username and Password');
         response.end();
     }
 });
