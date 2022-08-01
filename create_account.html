@@ -16,8 +16,6 @@
             --color-primary: #fada5e;
             --color-primary-dark: #d2bd89;
             --color-secondary: #19647E;
-            --color-error: #cc3333;
-            --color-sucess: #4bb544;
 
             margin: 0;
             height: 100vh;
@@ -64,14 +62,6 @@
             margin-bottom: 1rem;
         }
 
-        .form_message--sucess {
-            color: var(--color-sucess);
-        }
-
-        .form_message--error {
-            color: var(--color-error);
-        }
-
         .form_input-group {
             margin-bottom: 1rem;
         }
@@ -91,11 +81,6 @@
         .form_input:focus {
             border-color: var(--color-primary);
             background: #ffffff;
-        }
-
-        .form_input--error {
-            color: var(--color-error);
-            border-color: var(--color-error);
         }
 
         .form_button {
@@ -140,20 +125,15 @@
 <body>
     <div class="container">
         <form class="form" id="signup" method="POST" action="/sign">
-            <h1 class="form_title">Create an Account</h1>
-            <div class="form_message form_message--error"></div>
-        
+            <h1 class="form_title">Create an Account</h1>     
             <div class="form_input-group">
                 <input type="text" class="form_input" autofocus placeholder="Username">
-                <div class="form_input-error-message"></div>
             </div>
             <div class="form_input-group">
                 <input type="text" class="form_input" autofocus placeholder="Email">
-                <div class="form_input-error-message"></div>
             </div>
             <div class="form_input-group">
-                <input type="password" class="form_input" autofocus placeholder="Password">
-                <div class="form_input-error-message"></div>
+                <input type="password" class="form_input" autofocus placeholder="Password"v>
             </div>
             <button class="form_button type=" submit">Sign up</button>
             <p class="form_text">
