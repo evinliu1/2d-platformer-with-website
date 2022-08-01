@@ -54,7 +54,7 @@ app.post('/sign', urlencodedParser, function(request, response){
     let email = request.body.email;
     let password = request.body.password;
 
-    connection.query('INSERT INTO mydb', VALUES (username, email, password));
+    connection.query('INSERT INTO glitchdb', VALUES (username, email, password));
 
     response.send("New account created!")
 
