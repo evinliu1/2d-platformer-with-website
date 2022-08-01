@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=devide-width">
-    <title>Glitch</title>
-    <link href="login_style.css" rel="stylesheet" type="text/css">
+    <title>2D Platformer</title>
+    <link href="../../login_style.css" rel="stylesheet" type="text/css">
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const loginForm = document.querySelector("#login");
@@ -17,6 +16,8 @@
             --color-primary: #fada5e;
             --color-primary-dark: #d2bd89;
             --color-secondary: #19647E;
+            --color-error: #cc3333;
+            --color-sucess: #4bb544;
 
             margin: 0;
             height: 100vh;
@@ -25,7 +26,7 @@
             align-items: center;
             justify-content: center;
             font-size: 18px;
-            --border-radius: 14px;
+            --border-radius: 4px;
         }
 
         .container {
@@ -39,17 +40,15 @@
 
         }
 
-        .container,
-        .form_input,
-        .form_button {
+        .container, .form_input, .form_button {
             font: 500 1rem 'Quicksand', sans-serif;
         }
 
-        .form>*:first-child {
+        .form > *:first-child {
             margin-top: 0;
         }
 
-        .form>*:last-child {
+        .form > *:last-child {
             margin-top: 0;
         }
 
@@ -92,6 +91,11 @@
             background: #ffffff;
         }
 
+        .form_input--error {
+            color: var(--color-error);
+            border-color: var(--color-error);
+        }
+
         .form_button {
             width: 100%;
             padding: 1rem 2rem;
@@ -102,12 +106,11 @@
             border-radius: var(--border-radius);
             outline: none;
             cursor: pointer;
-            background: var(--color-primary);
-            margin-bottom: 2rem;
+            background: var(--color-primary) ;
         }
 
         .form_button:hover {
-            background: var(--color-primary-dark);
+            background:var(--color-primary-dark) ;
         }
 
         .form_button:active {
@@ -116,7 +119,7 @@
 
         .form_text {
             color: var();
-            text-align: center;
+            text-align: center ;
         }
 
         .form_link {
@@ -130,27 +133,32 @@
         }
     </style>
 </head>
-
 <body>
-    <div class="container">
-        <form class="form" id="login" method="POST" action="">
-            <h1 class="form_title">Login</h1>
-    
-            <div class="form_input-group">
-                <input type="text" class="form_input" autofocus placeholder="Username">
-            </div>
-            <div class="form_input-group">
-                <input type="password" class="form_input" autofocus placeholder="Password">
-            </div>
-            <button class="form_button type=" submit">Login</button>
-            <p class="form_text">
-                <a class="form_link" href="create_account.html" id="linkCreateAccount">Don't have an account? Create an
-                    account</a>
-            </p>
-        </form>
-    </div>
-    </div>
-    <script src="login.js"></script>
+<div class="container">
+    <form action="/auth" method="post">
+        <h1 class="form_title">Login</h1>
+        <div class="form_message form_message--error"></div>
+        <label for="username">
+            <i class="fas fa-user"></i>
+        </label>
+        <div class="form_input-group">
+            <input type="text" name="username" class="form_input" autofocus placeholder="Username" id="username" required>
+            <div class="form_input-error-message"></div>
+        </div>
+        <label for="password">
+            <i class="fas fa-lock"></i>
+        </label>
+        <div class="form_input-group">
+            <input type="password" class="form_input" autofocus placeholder="Password" name="password" id="password" required>
+            <div class="form_input-error-message"></div>
+        </div>
+        <button class="form_button type='submit'">Login</button>
+        <p class="form_text">
+            <a href="create_account.html" class="form_link">Don't have an account? Sign up</a>
+        </p>
+    </form>
+</div>
+</div>
+<script src="../../login.js"></script>
 </body>
-
 </html>
