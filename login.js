@@ -2,107 +2,47 @@ const mysql = require('mysql');
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
-const app = express();
+const bodyParser = require('body-parser');
 
 const connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : 'root',
-    database : 'glitchdb'
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'nodelogin'
 });
 
-// Connecting to database
-connection.connect(function(err) {
-    if(err){
-        console.log("Error in the connection")
-        console.log(err)
-    }
-    else{
-        console.log(`Database Connected`)
-        connection.query(`SHOW DATABASES`,
-            function (err, result) {
-                if(err)
-                    console.log(`Error executing the query - ${err}`)
-                else
-                    console.log("Result: ",result)
-            })
-    }
-})
+const app = express();
+
+connection.connect();
+global.db = connection;
+
+app.set('port', process.env.PORT || 3000);
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+
+app.use(bodyParser.urlencoded({ extended: false}));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
 
 app.use(session({
     secret: 'secret',
     resave: true,
-    saveUninitialized: true
+    saveUnitialized: true,
 }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'static')));
-
-app.get('/', function(request, response) {
-    // Render login template
-    response.sendFile(path.join(__dirname + '/login.html'));
+app.get('/sign', function(request, response) {
+    // Render account template
+    response.sendFile(path.join(__dirname + '/create_account'));
 });
-
-app.get('/', function(request, response) {
-    // Render login template
-    response.sendFile(path.join(__dirname + '/create_account.html'));
-});
-
-app.get('/home', function(request, response) {
-    // If the user is loggedin
-    if (request.session.loggedin) {
-        // Output username
-        response.send('Welcome back, ' + request.session.username + '!');
-    } else {
-        // Not logged in
-        response.send('Please login to view this page!');
-    }
-    response.end();
-});
-
-app.post('/auth', function(request, response) {
-    // Capture the input fields
+    // Record inputs into sql table
+app.post('/sign', urlencodedParser, function(request, response){
     let username = request.body.username;
+    let email = request.body.email;
     let password = request.body.password;
-    console.log(username, password)
-    // Ensure the input fields exists and are not empty
-    if (username && password) {
-        // Execute SQL query that'll select the account from the database based on the specified username and password
-        connection.query('SELECT * FROM glitchdb.users WHERE UserName = ? AND UserPass = ?', [username, password], function(error, results, fields) {
-            // If there is an issue with the query, output the error
-            if (error) throw error;
-            // If the account exists
-            if (results.length > 0) {
-                // Authenticate the user
-                request.session.loggedin = true;
-                request.session.username = username;
-                // Redirect to home page
-                response.redirect('/home');
-            } else {
-                response.send('Incorrect Username and/or Password!');
-            }
-            response.end();
-        });
-    } else {
-        response.send('Please enter Username and Password!');
-        response.end();
-    }
+
+    connection.query('INSERT INTO mydb', VALUES (username, email, password));
+
+    response.send("New account created!")
+
 });
 
-app.post('/auth', function(request, response) {
-    let username = request.body.username;
-    let password = request.body.password;
-    console.log(username, password);
-    if (username && password) {
-        connection.query('INSERT INTO glitchdb.users (UserName, UserPass) VALUES(?, ?)', [username, password], function (error, results, fields) {
-            if (error) throw error;
-            else response.send("New User Accepted");
-            response.redirect('login.html');
-        })
-    } else {
-        response.send('Please enter a Username and Password');
-        response.end();
-    }
-});
-
-app.listen(80)
+app.listen(3000);
